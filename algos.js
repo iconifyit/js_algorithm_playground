@@ -2,20 +2,21 @@
 // this array changes the index values in array a to match those in b
 var arr1 = ['joe','pete','ralph','steve','jim','chuck','tim','rob'];
 var arr2 = [2,4,5,7,6,0,1,3];
-var i = 0;
 
 function mutateArray(a,b) {
+
     var tempArray = new Array(b.length);
-    while(b.length > i) {    
+    var i = b.length;
+// I can get away with a negative while loop here because we aren't doing any splitting
+    while(--i) {    
         var element = a[i];
         var newIndex = b[i];
         tempArray[newIndex] = element;
-        i++
     }
-return tempArray
+    return tempArray
 }
 
-console.log(mutateArray(arr1,arr2));
+console.log(JSON.stringify(mutateArray(arr1,arr2)));
 
 // #1 SECOND HIGHEST ALGORITHM (created from scratch)
 
@@ -24,7 +25,7 @@ var f = 0; // second highest number
 
 function secondHighest(arr) {
 
-    var i = 1;
+    var i = 0;
 
     while (arr.length>i) {
     	if (i==1) {
@@ -38,7 +39,7 @@ function secondHighest(arr) {
     	else if (arr[i] < e && arr[i] > f) {
     		f = arr[i];
     	}
-    	i++
+    i++
     }
   console.log('the original array is: '+ arr);
   console.log('our 2 highest numbers are ' +e +' and '+f);
@@ -50,20 +51,17 @@ var newArray = [3,7,5,9,54,62,33,0,23,48,13,99,34,57,9,88,11,20]
 
 //#2 (faster?) SECOND HIGHEST ALGORITHM (created from scratch)
 
-var e = 0; // highest number
-var f = 0; // second highest number
-
 var calls = 0;
 
 function secondHighestSplitting(arr) {
     calls++
     var arrayOfArrays = [];
-    var array_length = arr.length;
     var highest = [0,0];
-    var t=0, i=0;
+    var t=0
+    var i=0;
 /* since we know our length is a power of 2, we split these into arrays of 2 numbers each, adding the higher numbers on the left */
 
-    while (array_length>t) {
+    while (arr.length>i) {
 
         var num1 = arr[t];
         var num2 = arr[t+1];
@@ -91,9 +89,9 @@ function secondHighestSplitting(arr) {
         if (num4>highest[1]) {             
             highest[1] = num4
             calls++
-        };               
-        i++
+        };
         t+=2
+        i++
     }
 
 console.log('our array of Arrays is '+JSON.stringify(arrayOfArrays));
@@ -103,7 +101,8 @@ console.log('our highest array is '+JSON.stringify(highest))
 
 }// end secondHighest()
 
-console.log(secondHighestSplitting(newArray));
+console.log(secondHighest(newArray));
+//console.log(secondHighestSplitting(newArray));
 console.log('calls is '+calls)
 
 
