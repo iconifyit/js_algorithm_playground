@@ -1,3 +1,43 @@
+/*  some things to REMEMBER! 
+
+1- pop() is just the opposite of push() -instead of ADDING to the last spot, it removes
+2- shift() is the pendulum fn of pop() - it removes from FIRST instead of last
+3- unshift() is the opposite of shift(), and the  endulum oppostite of push() - adding to the FIRST
+4- slice() just removes, returns new array w/ that stuff sliced out
+5- splice() can remove and add- uses params (position, number, optional element to add)
+6- join() concatenates elements into a Strgin
+7- split() breaks up string into array
+8- sort() sorts elements alphabetically (for a number, you have to use a fn)
+9- sort() for number: sort(function(a, b){
+                        return a-b
+                        });
+10- reverse() reverses the sorting
+
+*/
+//# 8 Swap Numbers with no temp variable!  Tricky :) from http://www.thatjsdude.com/interview/js1.html#swapTemp
+
+function swapNumbers(a,b) {
+    console.log('number swap: our old values are - a:' + a + ' b:' +b);
+    // we begin wih a = 2, b = 3
+
+    b = b-a;   // 1  // we temporarily change b's value
+    a = a+b;   // 3  // we've now switched a to b's former value
+    b = a-b;   // 2  // now we now switch b to a's former value
+
+    console.log('number swap: our new values are - a:' + a + ' b:' +b);
+}
+swapNumbers(50,84);
+
+// #7 Splitting Strings
+
+function splitMeIntoWords(sentence) {
+    words = sentence.split(' ')
+    return words
+}
+
+var sentence = 'Hey this is a great day! I hope to see you soon.'
+console.log('Lets split a sentence now... '+splitMeIntoWords(sentence));
+
 // #6 Splice verus Slice testing
 
 function addElementToIndex(arr) {
