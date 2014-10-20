@@ -1,4 +1,82 @@
-// #0 MUTATE ARRAY TO NEW VALUES ALGORITHM (created from scratch)
+// #6 Splice verus Slice testing
+
+function addElementToIndex(arr) {
+
+    /*  ok so in this splice, the 3 params tell it to do this:
+            1- add this to position 1
+            2- take ZERO away in its place
+            3- element to add 'luis'
+    */
+    arr.splice(4, 0, 'luis')
+    // this this increases our array by a number, and sticks luis in there
+    return arr
+}
+
+function addElementToBeginning(arr) {
+
+    /*  ok so in this splice, the 3 params tell it to do this:
+            1- add this to position 1
+            2- take ZERO away in its place
+            3- element to add 'luis'
+    */
+    arr.unshift('luis')
+    // this this increases our array by a number, and sticks luis in there
+    return arr
+}
+
+function addElementInPlaceOf(arr) {
+
+    /*  ok so in this splice, the 3 params tell it to do this:
+            1- add this to position 1
+            2- take ONE away in its place
+            3- element to add 'luis'
+    */
+    arr.splice(4, 1, 'luis')
+    // this this increases our array by a number, and sticks luis in place of arturo
+    return arr
+}
+
+
+var arr3 = ['juan', 'diego','joe', 'pedro', 'arturo'];
+
+//console.log('addElementToIndex check: '+addElementToIndex(arr3))
+//console.log('addElementToBeginning check: '+addElementToBeginning(arr3))
+console.log('addElementInPlaceOf check: '+addElementInPlaceOf(arr3))
+
+//#5 DETERMINE IF THIS IS AN ODD OR EVEN NUMBER
+
+function isEvenOrOdd(number) {
+/* the modulus or percentage sign % is used to figure out what the remainder is if you divide the number on the LEFT by the number on the RIGHT of the modulus. I see it used a lot to figure out if something is an even or odd row in a table of elements */
+
+// regular style
+
+    if (number % 2 > 0) {
+        return 'this is an odd number'
+    }
+    else {
+        return 'this is an even number'
+    }
+
+// try using ternary operator
+/*
+var statement = number % 2 > 0 ? 'this is an odd number' : 'this is an even number'
+return statement
+*/
+}
+console.log('even or odd? '+ isEvenOrOdd(135));
+
+//#4 DETERMINE IF IS PRIME NUMBER (taken from http://stackoverflow.com/questions/17389350/prime-numbers-javascript)
+
+function isPrime(number) {
+    var start = 2;
+    while (start <= Math.sqrt(number)) {
+        if (number % start++ < 1) return false;
+    }
+
+    return number > 1;
+}
+
+// #3 MUTATE ARRAY TO NEW VALUES ALGORITHM (created from scratch)
 // this array changes the index values in array a to match those in b
 var arr1 = ['joe','pete','ralph','steve','jim','chuck','tim','rob'];
 var arr2 = [2,4,5,7,6,0,1,3];
@@ -18,7 +96,7 @@ function mutateArray(a,b) {
 
 console.log(JSON.stringify(mutateArray(arr1,arr2)));
 
-// #1 SECOND HIGHEST ALGORITHM (created from scratch)
+// #2 SECOND HIGHEST ALGORITHM (created from scratch)
 
 var e = 0; // highest number
 var f = 0; // second highest number
@@ -59,6 +137,9 @@ function secondHighestSplitting(arr) {
     var highest = [0,0];
     var t=0
     var i=0;
+  /*  4 comparisons for each split, as we are going through the array jumping
+   by twos - so comparison total is 4 * (n/2);
+
 /* since we know our length is a power of 2, we split these into arrays of 2 numbers each, adding the higher numbers on the left */
 
     while (arr.length>i) {
@@ -106,7 +187,7 @@ console.log(secondHighest(newArray));
 console.log('calls is '+calls)
 
 
-//#3 MERGE SORT ALGORITHM - created from online examples
+//#1 MERGE SORT ALGORITHM - created from online examples
 
 var mergeCount = 0;
 var mergeSortCount = 0;
