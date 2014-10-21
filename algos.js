@@ -200,8 +200,8 @@ function findInversions() {
 
 //countInverse(tempArray);
 //console.log('count is '+count);
-mergeSort4(tempArray)
-console.log('mergeSort() inv are '+inversions2); 
+//mergeSort4(tempArray)
+//console.log('mergeSort() inv are '+inversions2); 
  //  console.log(mergeSort(tempArray) +'mergeSort() inv are '+inversions2); // 44 invs
      //console.log('inversions are '+inversions+ ' of length '+tempArray.length);
    })
@@ -292,7 +292,9 @@ function merge2(left, right)
     }
 
 }
-findInversions();
+//findInversions();
+
+
 
 function doesArrayContainInteger(a) {
     var array = [9,6,3,4,6,8,9,2,1,8,3,1,6,9,0,1,2,3,4,6,7,8,9,9,6,3,4,6,8,9,2,1,8,3,1,6,9,0,1,2,3,4,6,7,8,99,6,3,4,6,8,9,5,2,1,8,3,1,6,9,0,1,2,3,4,6,7,8,9]
