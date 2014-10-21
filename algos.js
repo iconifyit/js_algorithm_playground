@@ -29,17 +29,17 @@ suppress lower-order terms (these become increasingly irrelevant as your n gets 
 
 */
 function createRandomNumbersArray() {
-   var i = 1000000;
+   var i = 300000;
    tempArray = [];
 
    while (i--) {
-    tempArray.push(Math.floor(Math.random() * i))
+    tempArray.push(Math.round(Math.random() * i))
    } 
 console.log('our random array is now'+tempArray);
 }
 //createRandomNumbersArray();
 
-showMeRecursion();
+//showMeRecursion();
 
 function showMeRecursion() {
     var littleArray = [3,8,1,5,2,9];
@@ -134,7 +134,11 @@ function inversionCounter( list ) {
     return mergeAndCount( left, right ); 
 }
 
-// the above 2 functions were taken from https://github.com/Risto-Stevcev/javascript-inversion-counter/blob/master/inversion-counter.js -- the key difference here is that he invokes the recursion when establishing left and right, rather than in the return fn, like in the findInversions() below which does NOT in fact work to find inversions, while it will sort your array for you! My problem here is that I guess I don't really get how the hell recursion works - I do know that neither of these examples can accurately count inversions!!!
+// the above 2 functions were taken from https://github.com/Risto-Stevcev/javascript-inversion-counter/blob/master/inversion-counter.js -
+
+/* this one below ranks quite a bit faster than the slowest one in IE - and a little faster in chrome, it's quite a bit different than the others, I got it from
+http://www.ollcorrect.com/index.php/2013-12-31-09-01-55/js-fun/javascript-merge-sort-implementation-with-inversion-calculations */
+  
      var count = 0;
      var perf = 0;
 // YET another way to do a merge sort
