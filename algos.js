@@ -30,6 +30,7 @@ suppress lower-order terms (these become increasingly irrelevant as your n gets 
 */
 var inversions = 0;
 var inversions2 = 0;
+var inversions3 = 0;
 
 function mergeAndCount( left, right ) {
     var list = [], l = 0, r = 0;
@@ -127,13 +128,50 @@ function findInversions() {
 
 //countInverse(tempArray);
 //console.log('count is '+count);
-mergeSort(tempArray)
+mergeSort4(tempArray)
 console.log('mergeSort() inv are '+inversions2); 
  //  console.log(mergeSort(tempArray) +'mergeSort() inv are '+inversions2); // 44 invs
      //console.log('inversions are '+inversions+ ' of length '+tempArray.length);
    })
 
 //    var inversions = 0;
+
+
+function mergeSort4(tempArray) {
+
+  if (tempArray.length < 2) {
+    return tempArray
+  }
+
+  var half = Math.floor(tempArray.length / 2);
+  var left = tempArray.slice(0, half);
+  var right = tempArray.slice(half, tempArray.length);
+
+  return merge2(mergeSort4(left), mergeSort4(right));
+
+}
+
+function merge2(left, right)
+{
+    var result = [];
+ 
+    while (left.length && right.length) {
+        if (left[0] <= right[0]) {
+            result.push(left.shift());
+        } else {
+            result.push(right.shift());
+        }
+    }
+ 
+    while (left.length)
+        result.push(left.shift());
+ 
+    while (right.length)
+        result.push(right.shift());
+ 
+    return result;
+}
+ 
 
     function mergeSort(tempArray) {
 
@@ -180,7 +218,6 @@ console.log('mergeSort() inv are '+inversions2);
     return result
     
     }
-
 
 }
 findInversions();
