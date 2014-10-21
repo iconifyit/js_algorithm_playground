@@ -1,7 +1,7 @@
 /*  some things to REMEMBER! 
 
 1- pop() is just the opposite of push() -instead of ADDING to the last spot, it removes
-2- shift() is the pendulum fn of pop() - it removes from FIRST instead of last
+2- shift() is the pendulum fn of pop() - it removes from FIRST instead of last, and returns a new array with that element removed
 3- unshift() is the opposite of shift(), and the  endulum oppostite of push() - adding to the FIRST
 4- slice() just removes, returns new array w/ that stuff sliced out
 5- splice() can remove and add- uses params (position, number, optional element to add)
@@ -28,9 +28,76 @@ suppress lower-order terms (these become increasingly irrelevant as your n gets 
 6n log 2 n   0(nlogn)
 
 */
+function createRandomNumbersArray() {
+   var i = 1000000;
+   tempArray = [];
+
+   while (i--) {
+    tempArray.push(Math.floor(Math.random() * i))
+   } 
+console.log('our random array is now'+tempArray);
+}
+//createRandomNumbersArray();
+
+showMeRecursion();
+
+function showMeRecursion() {
+    var littleArray = [3,8,1,5,2,9];
+    var inversions4 = 0;
+
+mergeSort(littleArray);
+console.log('inversions4 is now '+inversions);
+
+    function mergeSort(tempArray) {
+
+console.log('array is now '+JSON.stringify(tempArray));
+  if (tempArray.length < 2) {
+    return tempArray
+  }
+
+  var half = Math.floor(tempArray.length / 2);
+  var left = mergeSort(tempArray.slice(0, half));
+  var right = mergeSort(tempArray.slice(half, tempArray.length));
+
+  return merge(left, right);
+
+}
+
+function merge(left, right) {
+  var result = [];
+console.log('our left is '+JSON.stringify(left));
+console.log('our right is '+JSON.stringify(right));
+  while (left.length && right.length) {
+    if (left[0] <= right[0]) {
+       console.log('left is: '+JSON.stringify(left)+' '+ left[0]+' is smaller than '+JSON.stringify(right) + ' ' + right[0]+', pushing left into result ');
+       result.push(left.shift());
+       console.log('result is now '+JSON.stringify(result));
+    } else {
+       console.log('INVERSION! right is: '+JSON.stringify(right)+' '+ right[0]+' is smaller than '+JSON.stringify(left) + ' ' + left[0]+', pushing right into result ');
+       result.push(right.shift());
+       console.log('result is now '+JSON.stringify(result));
+       inversions4 += (left.length - 1);
+    }
+  }
+
+  while (left.length) {
+    result.push(left.shift());
+       console.log('still some left items, result is now '+JSON.stringify(result));
+   }
+
+  while (right.length) {
+    result.push(right.shift());
+       console.log('still some right items, result is now '+JSON.stringify(result));
+}
+console.log('our result is now '+JSON.stringify(result));
+  return result;
+}
+}
+
 var inversions = 0;
 var inversions2 = 0;
 var inversions3 = 0;
+var inversions4 = 0;
 
 function mergeAndCount( left, right ) {
     var list = [], l = 0, r = 0;
@@ -54,6 +121,7 @@ function mergeAndCount( left, right ) {
 
     return list
 }
+
 
 function inversionCounter( list ) {
     if (list.length == 1)
