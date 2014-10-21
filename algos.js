@@ -14,6 +14,223 @@
 10- reverse() reverses the sorting
 
 */
+
+
+/* Asymptotic analysis
+
+suppress leading constant factors
+suppress lower-order terms (these become increasingly irrelevant as your n gets bigger)
+    def: result of log2 n is to find the number X so that 2 power X equals n
+    
+    example1: log2 n 25 equals 5 because 5 to the 2nd power is 25
+    example2  log2 n 8 equals 3, since 2 to the 3rd power equals 8.
+
+6n log 2 n   0(nlogn)
+
+*/
+var inversions = 0;
+var inversions2 = 0;
+
+function mergeAndCount( left, right ) {
+    var list = [], l = 0, r = 0;
+    for (i = 0; l < left.length || r < right.length; i++) {
+        if (l < left.length && r < right.length) {
+            if (left[l] < right[r])
+                list.push(left[l++]);
+            else {
+                list.push(right[r++]);
+                // so this is tricky - we don't just add 1!!! you add the amount of the left minus one, as that is how many elements we know that right is inverted to 
+              //  console.log('we are adding '+ (left.length - l)+' inversions');
+
+                inversions += (left.length - l);
+            }
+        }
+        else if (l < left.length)
+            list.push(left[l++]);
+        else if (r < right.length)
+            list.push(right[r++]);
+    }
+
+    return list
+}
+
+function inversionCounter( list ) {
+    if (list.length == 1)
+        return list;
+
+    var mid = list.length / 2;
+    var left  = inversionCounter( list.slice(0, mid) );
+    var right = inversionCounter( list.slice(mid, list.length) );
+   
+    return mergeAndCount( left, right ); 
+}
+
+// the above 2 functions were taken from https://github.com/Risto-Stevcev/javascript-inversion-counter/blob/master/inversion-counter.js -- the key difference here is that he invokes the recursion when establishing left and right, rather than in the return fn, like in the findInversions() below which does NOT in fact work to find inversions, while it will sort your array for you! My problem here is that I guess I don't really get how the hell recursion works - I do know that neither of these examples can accurately count inversions!!!
+     var count = 0;
+     var perf = 0;
+// YET another way to do a merge sort
+ function countInverse(array) {
+
+     split(0, array.length - 1);
+   //  console.log("Result:" + array);
+     //console.log(count);
+     //console.log(perf + ' ' + array.length * Math.log(array.length));
+
+     function split(left, right) {
+        // console.log('Split ' + left + " " + right)
+         var middle = Math.floor((right + left) / 2);
+
+         if (middle > left) {
+             split(left, middle);
+             split(middle + 1, right);
+         }
+         merge(left, middle, right)
+     }
+
+     function merge(left, middle, right) {
+         //console.log("Merge" + left + ',' + middle + ',' + right);
+         var leftArr = array.slice(left, middle + 1);
+         var rightArr = array.slice(middle + 1, right + 1);
+        // console.log(leftArr);
+        // console.log(rightArr);
+         while (leftArr.length > 0 && rightArr.length > 0) {
+             perf++;
+             if (leftArr[0] < rightArr[0]) {
+                 array[left++] = leftArr.shift();
+             } else {
+                 count = (count+leftArr.length);
+                 array[left++] = rightArr.shift();
+             }
+         }
+         leftArr.concat(rightArr);
+         while (leftArr.length > 0) {
+             array[left++] = leftArr.shift();
+         }
+     }
+     return count;
+ }
+
+
+
+function findInversions() {
+    var tempArray = [];
+   $.get('IntegerArray.txt', function(data){
+    // should be 3 inversions
+    tempArray =  data.split(/\r\n|\r|\n/) //regex to split on line ending
+    console.log('length of data is '+tempArray.length);
+    //tempArray = [11,12,4,1,7,2,3,15,9,5,16,8,6,13,10,14] //data;
+  // this is the array from the UW algorithms course, 
+
+//    console.log('tempArray is now'+JSON.stringify(tempArray));
+//inversionCounter(tempArray);
+//console.log('invCount() inv are '+inversions); 
+
+//countInverse(tempArray);
+//console.log('count is '+count);
+mergeSort(tempArray)
+console.log('mergeSort() inv are '+inversions2); 
+ //  console.log(mergeSort(tempArray) +'mergeSort() inv are '+inversions2); // 44 invs
+     //console.log('inversions are '+inversions+ ' of length '+tempArray.length);
+   })
+
+//    var inversions = 0;
+
+    function mergeSort(tempArray) {
+
+    if (tempArray.length < 2) {
+       return tempArray
+    }
+
+    var half = Math.floor(tempArray.length/2);
+    var left = tempArray.slice(0, half);
+    var right = tempArray.slice(half, tempArray.length);
+    
+    return merge(mergeSort(left),mergeSort(right));
+
+    }
+
+    function merge(left,right) {
+      // ok we need to see if this number is 
+        result = [];
+
+        il = 0,
+        ir = 0;
+
+        while(il < left.length && ir < right.length) {
+
+       if(parseInt(left[il]) > parseInt(right[ir])) {
+
+       }
+            if(parseInt(left[il]) < parseInt(right[ir])) {
+                result.push(parseInt(left[il++]));
+            } else{
+                result.push(parseInt(right[ir++]));
+               inversions2 += parseInt((left.length - il));
+            }
+        }
+
+        while (il < left.length){
+            result.push(parseInt(left[il++]));
+        }
+
+        while (ir < right.length){
+            result.push(parseInt(right[ir++]));
+        }
+    
+    return result
+    
+    }
+
+
+}
+findInversions();
+
+function doesArrayContainInteger(a) {
+    var array = [9,6,3,4,6,8,9,2,1,8,3,1,6,9,0,1,2,3,4,6,7,8,9,9,6,3,4,6,8,9,2,1,8,3,1,6,9,0,1,2,3,4,6,7,8,99,6,3,4,6,8,9,5,2,1,8,3,1,6,9,0,1,2,3,4,6,7,8,9]
+    var compare = 0;
+    var i = array.length;
+
+    while (i--)
+    {   compare++
+        if (array[i] == a) {
+        compare++
+            return true + ' compares is: ' + compare
+        }
+    }
+    return false
+}
+
+// SLOWER...
+
+// function doesSplitArrayContainInteger(a) {
+//     var array = [9,6,3,4,6,8,9,2,1,8,3,1,6,9,0,1,2,3,4,6,7,8,9,9,6,3,4,6,8,9,2,1,8,3,1,6,9,0,1,2,3,4,6,7,8,99,6,3,4,6,8,9,5,2,1,8,3,1,6,9,0,1,2,3,4,6,7,8,9]
+//     var half = array.length/2
+
+//     var compare = 0;
+
+//     var i = arr1.length;
+//     while (i++)
+//     { 
+//         if (arr1[0] === a) {
+//             console.log('1 we got a match!!!!');
+//             compare++
+//             return true + ' compares is: ' + compare
+//         } 
+//         if (arr2[0] === a) {
+//                    console.log('2 we got a match!!!!');
+//             compare++            
+//             return true + ' compares is: ' + compare
+//         }
+//             arr1.shift();
+//             arr2.shift();
+//             compare+=2
+//     }
+//     return false
+// }
+
+console.log('arrayContainInteger test! '+doesArrayContainInteger(5));
+//console.log('arraySplitContainInteger test! '+doesSplitArrayContainInteger(5));
+
 //# 8 Swap Numbers with no temp variable!  Tricky :) from http://www.thatjsdude.com/interview/js1.html#swapTemp
 
 function swapNumbers(a,b) {
