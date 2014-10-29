@@ -135,10 +135,164 @@ function inversionCounter( list ) {
 }
 
 // the above 2 functions were taken from https://github.com/Risto-Stevcev/javascript-inversion-counter/blob/master/inversion-counter.js -
+/*
+The basic idea is to find a “pivot” item in the array to compare
+ all other items against, then shift items such that all of the items 
+ before the pivot are less than the pivot value and all the items after 
+ the pivot are greater than the pivot value. After that, recursively
+  perform the same operation on the items before and after the pivot. 
+  There are many different algorithms to achieve a quicksort and this
+   post explores just one of them.
+
+   While the value at the left pointer in the array is less than the pivot value, 
+   move the left pointer to the right (add 1). Continue until the value 
+   at the left pointer is greater than or equal to the pivot value.
+   
+   */
+console.log('lets quickSortMedian this! '+ quickSortMedian([3,6,1,2,96,77,82,13,15,62,43,10,3,4,3,7,2,9,8,7,9,12,14,15]));
+
+function quickSortMedian(arr) {
+  
+  if (arr.length <= 1) {
+    return arr
+  }
+  var randomNumber = Math.floor(Math.random()* arr.length)
+  var medianArray = [
+    arr[0],
+    arr[Math.floor((arr.length)/2)],
+    arr[(arr.length)-1]
+  ]
+
+/* here we run a 2 pass bubble sort to find the median number...*/
+    var temp;
+    if (medianArray[0] > medianArray[1]) {
+      temp = medianArray[1]
+      medianArray[1] = medianArray[0]
+      medianArray[0] = temp
+    }
+        if (medianArray[1] > medianArray[2]) {
+      temp = medianArray[2]
+      medianArray[2] = medianArray[1]
+      medianArray[1] = temp
+    }
+
+/* now we take the median number and grab the actual value of that 
+number in our current arr */
+
+    median = medianArray[1]
+    median = arr[median]
+  var pivotNumber =  arr.splice(median, 1)
+  var left = []
+  var right = []
+  var x = arr.length;
+
+    while (x--) { 
+
+    if (arr[x] <= pivotNumber) {
+      left.push(arr[x])
+    }
+    else {
+      right.push(arr[x])
+    }
+  }
+  var leftSorted = quickSort(left)
+  var rightSorted = quickSort(right)
+  return leftSorted.concat(pivotNumber).concat(rightSorted)
+}   
+console.log('lets quickSort this! '+ quickSort2([3,6,1,2,9,10,3,4,3,7,2,9,8,7,9,12,14,15]));
+
+function quickSort(array) {
+// step 1 choose a pivot point, then we'll put stuff in left or right depending on which side of the pivot it falls
+
+  if (array.length <= 1) {
+    return array
+  }
+  var randomNumber = Math.floor(Math.random()* array.length)
+  var pivotNumber =  array.splice(randomNumber, 1)
+
+  console.log('array is '+array+ ' pivotNumber is '+pivotNumber, ' median is '+median)
+  var left = []
+  var right = []
+  var x = array.length;
+
+    while (x--) { 
+
+    if (array[x] <= pivotNumber) {
+      left.push(array[x])
+    }
+    else {
+      right.push(array[x])
+    }
+  }
+  var leftSorted = quickSort(left)
+  var rightSorted = quickSort(right)
+  return leftSorted.concat(pivotNumber).concat(rightSorted)
+  //var p1 = array[0];
+  //var p2 = array[Math.floor((array.length)/2)];
+  //var p3 = array[(array.length)-1];
+  // console.log('pivot is '+pivot);
+  // console.log('p1: '+p1);
+  // console.log('p2: '+p2);
+  // console.log('p3: '+p3);
+  
+//  return 'pivot is '+pivot
+}
+
+function quickSort2(arr) {
+  if (arr.length <= 1) {
+    return arr
+  }
+  var randomNumber = Math.floor(Math.random()* arr.length)
+  var pivotNumber = arr.splice(randomNumber, 1)
+  var left = []
+  var right = []
+  
+  for (var x=0;x<arr.length;x++) {
+    if (arr[x] <= pivotNumber) {
+      left.push(arr[x])
+    }
+    else {
+      right.push(arr[x])
+    }
+  }
+  var leftSorted = quickSort(left)
+  var rightSorted = quickSort(right)
+  return leftSorted.concat(pivotNumber).concat(rightSorted)
+}
 
 /* this one below ranks quite a bit faster than the slowest one in IE - and a little faster in chrome, it's quite a bit different than the others, I got it from
 http://www.ollcorrect.com/index.php/2013-12-31-09-01-55/js-fun/javascript-merge-sort-implementation-with-inversion-calculations */
   
+console.log('splitMeArray: '+splitMeArray([4,2,7,2,1]));
+
+function splitMeArray(array) {
+     var arrayArrays = []
+     var i=0;
+  // lets say we have an array of 5, [4,2,7,2,1]
+// split from this index to this index
+  splitMe(0, array.lengthy-1)   // we'll take everything above
+  // splitMe 0, 4
+
+  function splitMe(left, right)  {
+  // ok let's find the middle point by diving the sum of all our index spots /2 and round down 
+    // left is 0, right is 4, middle is 2
+    var middle = Math.floor((left+right)/2)
+// if 2 is greater than 0, split the left half into 2 and the right half into 2
+    if (middle > left) {
+// split 0, 2     // left is 0, right is 4, middle is 2
+      splitMe(left, middle);
+      arrayArrays[i] = [];
+      arrayArrays[i].push(left,middle)
+      i++   
+// split 2+1,4     // left is 0, right is 4, middle is 2
+      splitMe(middle + 1, right);
+      arrayArrays[i] = [];
+      arrayArrays[i].push(middle + 1, right) 
+      i++   
+    }
+  }  // end splitMe
+return arrayArrays
+}
      var count = 0;
      var perf = 0;
 // YET another way to do a merge sort
@@ -474,10 +628,10 @@ function secondHighest(arr) {
     var i = 0;
 
     while (arr.length>i) {
-    	if (i==1) {
-    		e = arr[0];
-    	    f = arr[0];		
-    	}
+    	// if (i==1) {
+    	// 	e = arr[0];
+    	//     f = arr[0];		
+    	// }
     	if (arr[i] > e) {
    			f = e;
     		e = arr[i];		
