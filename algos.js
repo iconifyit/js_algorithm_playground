@@ -199,7 +199,7 @@ number in our current arr */
   var rightSorted = quickSort(right)
   return leftSorted.concat(pivotNumber).concat(rightSorted)
 }   
-console.log('lets quickSort this! '+ quickSort2([3,6,1,2,9,10,3,4,3,7,2,9,8,7,9,12,14,15]));
+console.log('lets quickSort this! '+ quickSort([3,6,1,2,9,10,3,4,3,7,2,9,8,7,9,12,14,15]));
 
 function quickSort(array) {
 // step 1 choose a pivot point, then we'll put stuff in left or right depending on which side of the pivot it falls
@@ -210,7 +210,6 @@ function quickSort(array) {
   var randomNumber = Math.floor(Math.random()* array.length)
   var pivotNumber =  array.splice(randomNumber, 1)
 
-  console.log('array is '+array+ ' pivotNumber is '+pivotNumber, ' median is '+median)
   var left = []
   var right = []
   var x = array.length;
@@ -224,18 +223,17 @@ function quickSort(array) {
       right.push(array[x])
     }
   }
+  // this is where the recursion trick trips me up, as left and right are already sorted 
+  // by the time they hit new_array - 
+  console.log('left is '+left);
+  console.log('right is '+right);
   var leftSorted = quickSort(left)
   var rightSorted = quickSort(right)
-  return leftSorted.concat(pivotNumber).concat(rightSorted)
-  //var p1 = array[0];
-  //var p2 = array[Math.floor((array.length)/2)];
-  //var p3 = array[(array.length)-1];
-  // console.log('pivot is '+pivot);
-  // console.log('p1: '+p1);
-  // console.log('p2: '+p2);
-  // console.log('p3: '+p3);
-  
-//  return 'pivot is '+pivot
+var new_array = leftSorted.concat(pivotNumber).concat(rightSorted)
+console.log('our pivotNum is '+pivotNumber);
+console.log('our OLD array is '+array);
+console.log('our new array is '+new_array);
+  return new_array
 }
 
 function quickSort2(arr) {
@@ -763,3 +761,80 @@ console.log('our mergeSort result it '+ mergeSort(newArray));
 console.log('our final mergeCount is '+ mergeCount); 
 console.log('our final mergeSortCount is '+ mergeSortCount); 
 console.log('our final whileCount is '+ whileCount); 
+
+
+console.log('flashSorting! '+flashSort(newArray));
+
+function flashSort(arr) {
+    var n = arr.length;
+    var i = 0, j = 0, k = 0, t;
+    var m = ~~( n * 0.125 );
+    var l = [];
+    var anmin = arr[ 0 ];
+    var nmax = 0;
+    var nmove = 0;
+
+    for ( i = 0; i < m; i++ ) {
+            l[ i ] = 0;
+    }
+
+    for ( i = 1; i < n; ++i ) {
+            if ( arr[ i ] < anmin ) anmin = arr[ i ];
+            if ( arr[ i ] > arr[ nmax ] ) nmax = i;
+    }
+
+    if ( anmin == arr[ nmax ]) return;
+
+    var c1 = ( m - 1 ) / ( arr[ nmax ] - anmin );
+
+    for ( i = 0; i < n; ++i ) {
+            k = ~~( c1 * ( arr[ i ] - anmin ) );
+            ++l[ k ];
+    }
+
+    for ( k = 1; k < m; ++k ) {
+            l[ k ] += l[ k - 1 ];
+    }
+
+    var hold = arr[ nmax ];
+    arr[ nmax ] = arr[ 0 ];
+    arr[ 0 ] = hold;
+
+    var flash;
+    j = 0;
+    k = m - 1;
+    i = n - 1;
+
+    while ( nmove < i ) {
+            while ( j > ( l[ k ] - 1 ) ) {
+                    k = ~~( c1 * ( arr[ ++j ] - anmin ) );
+            }
+            flash = arr[ j ];
+
+            while ( j != l[ k ] ) {
+                    k = ~~( c1 * ( flash - anmin ) );
+                    hold = arr[ ( t = l[ k ]-1) ];
+                    arr[ t ] = flash;
+                    flash = hold;
+                    --l[ k ];
+                    ++nmove;
+            }
+    }
+
+    for( j = 1; j < n; ++j ) {
+            hold = arr[ j ];
+            i = j - 1;
+            while( i >= 0 && arr[i] > hold ) {
+                    arr[ i + 1 ] = arr[ i-- ];
+            }
+            arr[ i + 1 ] = hold;
+    }
+    return arr
+}
+document.addEventListener("DOMContentLoaded", function() {
+
+
+var texty =  document.getElementById('main').textContent;
+document.getElementById('main').innerHTML = marked(texty);
+
+})

@@ -18,23 +18,35 @@ padding: 0 80px;
 font-size:2rem;
 }
 #main p {
-text-align:center
+
 }
 </style>
-<script src="study_tools/jquery.js"></script>
+<link  href="http://cdnjs.cloudflare.com/ajax/libs/gumby/2.6.0/css/gumby.min.css" rel="stylesheet" type="text/css">
+<script src="libs/jquery.js"></script>
+<script src="libs/marked.js"></script>
 <script src="algos.js"></script>	
 
 </head>
 
 <body>
+
 <div id="main">
-Right now I don't have anything visual in this page, but you can see the result of the algorithms in the console. The repo is just my experiments for the Coursera course: 
 
-<p><a href="https://class.coursera.org/algo-006" target="_blank">Algorithms: Design and Analysis, Part 1 by Tim Roughgarden.</a></p>
+# Stacey Reiman's JavaScript Algorithm Playground
+## Experiments with Javascript algorithms to help me improve my understanding and abililty to write them.
 
-<p>For fun I've added a <a href="http://jsperf.com/updated-merge-sort-inversion-count-test/5" target="_blank">JSPerf for Merge Sort with Inversion Count</a> - right now just 5 variations, but interesting results! I plan to add more variations soon</p>
+Our new social media site and app [Kwippe](http://www.kwippe.com) runs a lot of different algorithms to combine body parts and create fun images, so I've been on a quest to improve my ability to write them. 
 
-<p>As we've moved on to Quicksort - I've added to an existing JSPerf and the results are pretty cool! Using a little bubble sort you can find the median pivot, which I've read is much better than using a random or first element. <a href="http://jsperf.com/javascript-quicksort-comparisons/2">Check it out here.</a>
+Nothing very exciting or original here yet, but I hope to add cool ways to do things fast, as I go about learning new things in the course I'm taking on Coursera.com.
+
+I've created a JSPerf for one of the algorithms I'm playing with here, Merge Sort (with inversion count as a side bonus :)
+
+[The JSPerf is here.](http://jsperf.com/updated-merge-sort-inversion-count-test/5)
+
+As we've moved on to Quicksort - I've added to an existing JSPerf and the results are pretty cool! Using a little bubble sort you can find the median pivot, which I've read is much better than using a random or first element. [Check it out here.](http://jsperf.com/javascript-quicksort-comparisons/3)
+
+I added a Flashsort sample to the Quicksort perf and it won, caramba! Now the thing is re-te-complicado.... not exactly intuitive like Quicksort. But I'd like to have some fun deciphering it :)
+
 </div>
 
 </body>
