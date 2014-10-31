@@ -2,7 +2,7 @@
 
 console.log('lets flashSort this! '+ flashSort(['dave','pete','andrew','marco','arturo','joe','alfred','zoey','jim','rob','ed']));
 
-/* SHORTHANDS below!!!  
+/* SHORTHANDS and notes below!!!  
 
 I learned some new things from analyzing this algorithm. 
 
@@ -14,6 +14,12 @@ I learned some new things from analyzing this algorithm.
     defining t as ONE LESS than left[k]
     IE: so if left[k] is 4, our t value is 3
         and our array[t] value is now array[3]
+5- remember about i++ versus ++i
+
+if using to assign a value, like    j = i++  // j is i BEFORE it increments
+                                    j = ++i  //j is i AFTER i increments
+
+So, the "before the var ++ is a shortcut for incrementing BOTH vars at once
 */
 
 function flashSort(array) {
