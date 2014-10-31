@@ -1,5 +1,6 @@
-console.log('lets flashSort this! '+ flashSort([3,6,1,2,9,10,67,73,2,43,56,90,3,4,3,7,2,9,8,7,9,12,14,15]));
+// console.log('lets flashSort this! '+ flashSort([3,6,1,2,9,10,67,73,2,43,56,90,3,4,3,7,2,9,8,7,9,12,14,15]));
 
+console.log('lets flashSort this! '+ flashSort(['dave','pete','andrew','marco','arturo','joe','alfred','zoey','jim','rob','ed']));
 
 function flashSort(array) {
  // we have no out condition at top because this sucker runs at O(n)!!
@@ -14,7 +15,8 @@ function flashSort(array) {
     var nmax = 0;
     var nmove = 0;
     var finalSwaps = 0;
-    
+    var leftK = [];
+
     console.log('our array is '+array)
     console.log('our lengthy is '+lengthy);
     console.log('our m is '+m);
@@ -108,11 +110,8 @@ So this just swaps the first element w/ the high number element
 2- set k to our m (pivot) - 1
 3- set i to our array length -1
 4- loop through ALL of our elements again, as nmove is 0 and i is the entire array less 1
-5- nested while loop #1:
-    a) 
-6- neseted while loop #2:
-
-
+5- nested while loop #1: (see loop)
+6- nestted while loop #2: (see loop)
 */
 
     var flash;
@@ -120,19 +119,63 @@ So this just swaps the first element w/ the high number element
     k = m - 1;
     i = lengthy - 1;
 
-    while ( nmove < i ) {
-            while ( j > ( left[ k ] - 1 ) ) {
-                    k = ~~( c1 * ( array[ ++j ] - anmin ) );
-            }
-            flash = array[ j ];
 
+    while ( nmove < i ) {
+        // loop as long as j (begin at 0) is LARGER than  the left array's element
+        // at the (m-2) position - m is our pivot? so 2 behind the pivot
+        // WTF so  j is 0, these elements have to be NEGATIVE...
+
+// I couldn't see why this loop was needed, maybe it's for different situations or maybe strings
+
+            // while ( j > ( left[ k ] - 1 ) ) {
+            //     console.log('STEP #8: j is '+j);
+            //     console.log('STEP #8: left[k] - 1 is '+left[k]-1);
+            //     //set k to Math.floor() of the weird c1 value * the next array element
+            //     // LESS the anmin value - WTHF??
+            //         k = ~~( c1 * ( array[ ++j ] - anmin ) );
+            // }
+            // set the FLASH to array[0]
+          //  flash = array[ j ];
+            // i think i can just change this to 0
+               flash = array[ 0 ];
+            console.log('STEP #8: our flash value is '+flash);
+            
+// while j (beginning at 0) is NOT equal to left[m-1]  (so 1 less than our pivot value?)
             while ( j != left[ k ] ) {
+                console.log('STEP #8: j is '+j+' left[k] is '+left[k]);
+// set k to the of the weird c1 * our LARGEST number (flash) - anmin
+                console.log('STEP #8: flash is '+flash+' anmin is '+anmin);
                     k = ~~( c1 * ( flash - anmin ) );
-                    hold = array[ ( t = left[ k ]-1) ];
+                console.log('STEP #8: k = '+k);
+                // set our HOLD value to WTHF?
+
+                console.log('STEP #8: our array is '+array);
+                console.log('STEP #8: left array is '+left);
+                console.log('WTF is this?? '+ array[(t = left[ k ]-1)]);
+/* so after some console-logging I figured out this is just a shortcut way to set the
+array value - who knew you could use a formula like that IN and array value */
+                 hold = array[ ( t = left[ k ]-1) ];
+                console.log('WTF is t? '+t);
+                console.log('WTF is hold? '+hold);
+                console.log('WTF is hold = to array[t]? '+array[t]);
+    // now we SWAP the array[t] to our FLASH value
                     array[ t ] = flash;
+                    finalSwaps++
+     // now we swap the flash value BACK to our hold value              
                     flash = hold;
+                    finalSwaps++
+           var nmovey = 'nmove is '+nmove
+              var pre = {val: 'val: ' +left, leftK: left[k], nmove: nmovey};
+   
                     --left[ k ];
+   
+      //        so basically this --left[k] means subtract 1 from whatever is at index k 
+        
                     ++nmove;
+            var nmovey2 =  'nmove is '+nmove
+            var post = {val: 'val: '+left, leftK: left[k], nmove2: nmovey2} 
+
+                          leftK.push({pre:pre, post:post})
             }
     }
 
@@ -160,6 +203,7 @@ So this just swaps the first element w/ the high number element
             }
             // finish the SWAP by setting the J element back to the  hold value
             array[ i + 1 ] = hold;
+            finalSwaps++
     }
-    return array + ' final swaps: '+finalSwaps
+    return array + ' final swaps: '+finalSwaps + '. leftK is $$$$$$$$$$$$$$$$$$$$$$$$'+JSON.stringify(leftK);
 }
