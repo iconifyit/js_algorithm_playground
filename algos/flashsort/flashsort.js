@@ -2,6 +2,20 @@
 
 console.log('lets flashSort this! '+ flashSort(['dave','pete','andrew','marco','arturo','joe','alfred','zoey','jim','rob','ed']));
 
+/* SHORTHANDS below!!!  
+
+I learned some new things from analyzing this algorithm. 
+
+1- ~~(number)  - this is a shortcut for Math.floor(number)
+2- --array[ i ] - used with numbers, decrements i in place - so if array[i] was 4, > 3
+3- ++array[ i ] - increased array[i] value in place, adding 1
+4- array[formula] - example from script below
+    array[(t = left[ k ]-1)]) = gets the value for array[t], while at the same time
+    defining t as ONE LESS than left[k]
+    IE: so if left[k] is 4, our t value is 3
+        and our array[t] value is now array[3]
+*/
+
 function flashSort(array) {
  // we have no out condition at top because this sucker runs at O(n)!!
 
