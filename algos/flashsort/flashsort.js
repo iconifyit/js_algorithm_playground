@@ -1,8 +1,21 @@
-// console.log('lets flashSort this! '+ flashSort([3,6,1,2,9,10,67,73,2,43,56,90,3,4,3,7,2,9,8,7,9,12,14,15]));
+var numberArray = [3,6,1,2,9,10,67,73,2,43,56,90,3,4,3,7,2,9,8,7,9,12,14,15]
+ console.log('lets flashSort this! '+ flashSort(numberArray));
 
-console.log('lets flashSort this! '+ flashSort(['dave','pete','andrew','marco','arturo','joe','alfred','zoey','jim','rob','ed']));
 
-/* SHORTHANDS and notes below!!!  
+//console.log('lets flashSort this! '+ flashSort(['dave','pete','andrew','marco','arturo','joe','alfred','zoey','jim','rob','ed']));
+
+/* About the Flashsort Algorithm: 
+from http://www.drdobbs.com/database/the-flashsort1-algorithm/184410496
+
+ It sorts in O(n) time and requires less than 0.1n auxiliary memory to sort n elements. I achieve this by using classification to do the long-range ordering with in-place permutation, then use a simple comparison method for the final short-range ordering of each class. I assume here that the elements are approximately evenly distributed real numbers, although the algorithm can be adapted to other types of data.
+
+The algorithm (see Listing One) consists of three logical blocks: classification, permutation, and straight insertion. Classification determines the size of each class of elements. Permutation does long-range reordering to collect elements of each class together, and straight insertion does the final short-range ordering.
+
+Classification
+The whole idea of a classification sort is simple: Assuming the elements A(i) are about evenly distributed, you can compute the approximate final position directly from the element value, with no comparisons. If the maximal element is Amax and the minimal element is Amin, you can compute:
+
+
+ SHORTHANDS and notes below!!!  
 
 I learned some new things from analyzing this algorithm. 
 
@@ -29,10 +42,12 @@ function flashSort(array) {
 
     var lengthy = array.length;
     var i = 0, j = 0, k = 0, t;
+    // this appears to be a changeable PIVOT value. I'm not sure why this formula is used, I wonder if it'd be better to combine first, last, and middle here?
+
     var m = ~~( lengthy * 0.125 );
     var left = [];
-    var anmin = array[ 0 ];
-    var nmax = 0;
+    var anmin = Math.max.apply(Math, array); 
+    var nmax = Math.min.apply(Math, array); 
     var nmove = 0;
     var finalSwaps = 0;
     var leftK = [];
@@ -58,13 +73,15 @@ function flashSort(array) {
 
 
      */
-    for ( i = 1; i < lengthy; ++i ) {
-            if ( array[ i ] < anmin ) anmin = array[ i ];
-            if ( array[ i ] > array[ nmax ] ) { 
-                nmax = i;
-                console.log('setting nmax to the index of this value: '+array[i]);
-                }
-    }
+
+
+    // for ( i = 1; i < lengthy; ++i ) {
+    //         if ( array[ i ] < anmin ) anmin = array[ i ];
+    //         if ( array[ i ] > array[ nmax ] ) { 
+    //             nmax = i;
+    //             console.log('setting nmax to the index of this value: '+array[i]);
+    //             }
+    // }
 
 console.log('our min is now '+anmin);
 console.log('the INDEX of our max is now '+nmax);
@@ -92,19 +109,29 @@ will qualify for this
 2- Set k to the ~~ of the value of that weird c1 value TIMES the current element LESS anmin
 3- I have no fucking idea what ++ before an array does, maybe like push? 
 */
+// var counter = 0;
+//     for ( i = 0; i < lengthy; ++i ) {
+//             console.log('STEP #4.5: left array is now '+left);
+//             //k = ~~( c1 * ( array[ i ] - anmin ) );
+//           //  ++left[ k ];
+//           counter++
+//           // optimization to avoid using temp var K
+//           if (i == lengthy-1) {
+// //            ++left[~~(c1*(array[i] - anmin))>>13];
 
-    for ( i = 0; i < lengthy; ++i ) {
-            k = ~~( c1 * ( array[ i ] - anmin ) );
-            ++left[ k ];
-            console.log('STEP #5: left array is now '+left);
-    }
+//             left[0] = counter
+//             console.log('STEP #5: left array is now '+left);
+//         }
+//     }
+
+/* I don't see the point of the above loop - the only value that matters is this one, and it's easy to arrive at w/out the shit above... */
+
+left[0] = lengthy-1;
 
 /* STEP #6 
 1- Sub loop through LEFT array elements between 1 and the m (pivot?) value
 2- add the value of the element on the left of this item to this one
 */
-
-
     for ( k = 1; k < m; ++k ) {
             left[ k ] += left[ k - 1 ];
             console.log('STEP #6: left array is now '+left);
@@ -226,4 +253,74 @@ array value - who knew you could use a formula like that IN and array value */
             finalSwaps++
     }
     return array + ' final swaps: '+finalSwaps + '. leftK is $$$$$$$$$$$$$$$$$$$$$$$$'+JSON.stringify(leftK);
+}
+
+// version for jsperf
+
+function flashSort2(arr) {
+
+    var lengthy = arr.length;
+    var i = 0, j = 0, k = 0, t;
+
+    var m = ~~( lengthy * 0.125 );
+    var left = [];
+    var anmin = Math.max.apply(Math, arr); 
+    var nmax = Math.min.apply(Math, arr); 
+    var nmove = 0;
+    var finalSwaps = 0;
+ 
+
+    while(i < m) {
+            left[ i ] = 0;
+        i++
+    }
+
+
+    if ( anmin == arr[ nmax ]) return;
+
+    var c1 = ( m - 1 ) / ( arr[ nmax ] - anmin );
+
+    left[0] = lengthy-1;
+
+    for ( k = 1; k < m; ++k ) {
+            left[ k ] += left[ k - 1 ];
+    }
+
+    var hold = arr[ nmax ];
+    arr[ nmax ] = arr[ 0 ];
+    arr[ 0 ] = hold;
+
+
+    var flash;
+    j = 0;
+    k = m - 1;
+    i = lengthy - 1;
+
+
+    while ( nmove < i ) {
+               flash = arr[ 0 ];
+            
+            while ( j != left[ k ] ) {
+                    k = ~~( c1 * ( flash - anmin ) );
+                    hold = arr[ ( t = left[ k ]-1) ];
+                    arr[ t ] = flash;
+                    flash = hold; 
+                    --left[ k ];
+                    ++nmove;
+            }
+    }
+
+    for( j = 1; j < lengthy; ++j ) {
+
+            hold = arr[ j ];
+            i = j - 1;
+
+            while( i >= 0 && arr[i] > hold ) {
+                    arr[ i + 1 ] = arr[ i-- ];
+
+            }
+
+            arr[ i + 1 ] = hold;
+    }
+    return arr
 }
